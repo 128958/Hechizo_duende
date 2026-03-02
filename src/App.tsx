@@ -3,7 +3,7 @@ import { Play, RotateCcw, Music, Sparkles } from 'lucide-react';
 
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 600;
-const ROAD_WIDTH = 300;
+const ROAD_WIDTH = 180;
 const MAX_POWER = 100;
 const POWER_DEPLETION_RATE = 3; 
 const GOBLIN_DAMAGE = 20;
@@ -179,9 +179,9 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
       const getRoadX = (d: number) => {
         // A more complex winding path to match the map image
         return CANVAS_WIDTH / 2 + 
-               Math.sin(d / 500) * 120 + 
-               Math.cos(d / 1000) * 80 + 
-               Math.sin(d / 250) * 30;
+               Math.sin(d / 500) * 180 + 
+               Math.cos(d / 1000) * 120 + 
+               Math.sin(d / 250) * 40;
       };
 
       const roadCenterX = getRoadX(state.distance);
@@ -321,9 +321,9 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
       const getRoadX = (d: number) => {
         // A more complex winding path to match the map image
         return CANVAS_WIDTH / 2 + 
-               Math.sin(d / 500) * 120 + 
-               Math.cos(d / 1000) * 80 + 
-               Math.sin(d / 250) * 30;
+               Math.sin(d / 500) * 180 + 
+               Math.cos(d / 1000) * 120 + 
+               Math.sin(d / 250) * 40;
       };
 
       // Background - Forest green from image
@@ -355,42 +355,6 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
       }
       ctx.fill();
 
-      // Dirt texture (speckles and cracks)
-      ctx.save();
-      ctx.clip();
-      // Speckles
-      for (let i = 0; i < 500; i++) {
-        const sx = (Math.sin(i * 432.1) * 0.5 + 0.5) * CANVAS_WIDTH;
-        const sy = (state.distance * 0.8 + i * 123.4) % CANVAS_HEIGHT;
-        const size = 0.5 + Math.sin(i) * 1.5;
-        ctx.fillStyle = i % 2 === 0 ? 'rgba(80, 48, 20, 0.4)' : 'rgba(139, 94, 60, 0.3)';
-        ctx.beginPath();
-        ctx.arc(sx, sy, size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      // Cracks/Lines
-      ctx.strokeStyle = 'rgba(60, 35, 15, 0.2)';
-      ctx.lineWidth = 1;
-      for (let i = 0; i < 30; i++) {
-        const sx = (Math.sin(i * 99) * 0.5 + 0.5) * CANVAS_WIDTH;
-        const sy = (state.distance * 0.5 + i * 300) % CANVAS_HEIGHT;
-        ctx.beginPath();
-        ctx.moveTo(sx, sy);
-        ctx.lineTo(sx + Math.cos(i) * 40, sy + Math.sin(i) * 40);
-        ctx.stroke();
-      }
-      // Stones
-      for (let i = 0; i < 20; i++) {
-        const sx = (Math.sin(i * 777) * 0.5 + 0.5) * CANVAS_WIDTH;
-        const sy = (state.distance * 0.9 + i * 450) % CANVAS_HEIGHT;
-        const size = 2 + Math.sin(i) * 2;
-        ctx.fillStyle = 'rgba(50, 30, 10, 0.3)';
-        ctx.beginPath();
-        ctx.arc(sx, sy, size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.restore();
-
       // Road borders
       ctx.strokeStyle = '#503014';
       ctx.lineWidth = 3;
@@ -411,7 +375,7 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
       // Starting House
       const houseY = state.distance + state.player.y - 400;
       if (houseY > -200 && houseY < CANVAS_HEIGHT + 200) {
-        drawAsset(assets.house, getRoadX(400) + 220, houseY, 180, 180);
+        drawAsset(assets.house, getRoadX(400) + 120, houseY, 180, 180);
       }
 
       const elementDistStart = Math.floor((state.distance - CANVAS_HEIGHT) / 250) * 250;
@@ -421,8 +385,8 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
           const cx = getRoadX(d);
           
           // Trees along the road
-          const leftTreeX = cx - 220 - seededRandom(d) * 120;
-          const rightTreeX = cx + 220 + seededRandom(d + 1) * 120;
+          const leftTreeX = cx - 180 - seededRandom(d) * 120;
+          const rightTreeX = cx + 180 + seededRandom(d + 1) * 120;
           
           const treeType = Math.floor(seededRandom(d + 2) * 4) + 1;
           const treeImg = (assets as any)[`tree${treeType}`];
@@ -432,7 +396,7 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
 
           // Lakes/Ponds
           if (seededRandom(d + 3) > 0.85) {
-            const lakeX = cx + (seededRandom(d + 4) > 0.5 ? 350 : -350);
+            const lakeX = cx + (seededRandom(d + 4) > 0.5 ? 300 : -300);
             drawAsset(assets.lake, lakeX, y, 200, 120);
           }
         }
