@@ -283,7 +283,7 @@ const Game = ({ onGameOver, onVictory }: { onGameOver: () => void, onVictory: ()
     };
 
     const playerImage = new Image();
-    playerImage.src = '/Assets/Isari.jpg';
+    playerImage.src = 'https://picsum.photos/seed/isari/200/200';
 
     const assets = {
       player: playerImage,
